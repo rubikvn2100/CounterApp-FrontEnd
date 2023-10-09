@@ -8,6 +8,7 @@
     "build": "tsc",
     "watch": "tsc -w",
     "clean": "find ./bin ./lib ./test -type f \\( -name \"*.js\" -o -name \"*.d.ts\" \\) -delete",
+    "clean:all": "npm run clean && rm -rf node_modules && npm install",
     "test": "jest",
     "cdk": "cdk"
   },
