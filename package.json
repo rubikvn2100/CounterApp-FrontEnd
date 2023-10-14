@@ -7,7 +7,7 @@
   "scripts": {
     "build": "tsc",
     "cdk": "cdk",
-    "clean": "find ./bin ./lib ./test -type f \\( -name \"*.js\" -o -name \"*.d.ts\" \\) -delete",
+    "clean": "find ./bin ./lib ./test -type f \\( -name \"*.js\" -o -name \"*.d.ts\" \\) -delete && rm -rf cdk.out",
     "clean:all": "npm run clean && rm -rf node_modules && npm install",
     "format": "npm run format:package-json && npm run prettier:fix",
     "format:package-json": "sort-package-json && prettier --write package.json",
