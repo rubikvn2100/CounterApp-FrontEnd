@@ -1,6 +1,7 @@
 import * as cdk from "aws-cdk-lib";
 import { WebAssetsStorageStack } from "./WebAssetsStorageStack";
 import { WebAssetFetcherStack } from "./WebAssetFetcherStack";
+import { WebAssetEndpointStack } from "./WebAssetEndpointStack";
 import { Construct } from "constructs";
 
 export class AppStage extends cdk.Stage {
@@ -16,9 +17,19 @@ export class AppStage extends cdk.Stage {
       },
     );
 
-    new WebAssetFetcherStack(this, "WebAssetFetcherStack", {
+    const webAssetFetcherStack = new WebAssetFetcherStack(
+      this,
+      "WebAssetFetcherStack",
+      {
+        env: props.env,
+        webAssetsBucket: webAssetsStorageStack.webAssetsBucket,
+      },
+    );
+
+    new WebAssetEndpointStack(this, "WebAssetEndpointStack", {
       env: props.env,
-      webAssetsBucket: webAssetsStorageStack.webAssetsBucket,
+      stageName: stageName,
+      webAssetFetcher: webAssetFetcherStack.webAssetFetcher,
     });
   }
 }

@@ -9,6 +9,8 @@ export interface WebAssetFetcherStackProps extends cdk.StackProps {
 }
 
 export class WebAssetFetcherStack extends cdk.Stack {
+  public readonly webAssetFetcher: lambda.Function;
+
   constructor(scope: Construct, id: string, props: WebAssetFetcherStackProps) {
     super(scope, id, props);
 
@@ -23,7 +25,7 @@ export class WebAssetFetcherStack extends cdk.Stack {
 
     props.webAssetsBucket.grantRead(webAssetFetcherRole);
 
-    new lambda.Function(this, "WebAssetFetcher", {
+    this.webAssetFetcher = new lambda.Function(this, "WebAssetFetcher", {
       runtime: lambda.Runtime.PYTHON_3_8,
       code: lambda.Code.fromAsset("./lambda_code/web_asset_fetcher"),
       handler: "index.handler",
