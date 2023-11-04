@@ -8,12 +8,14 @@ export interface WebAssetsStorageStackProps extends cdk.StackProps {
 }
 
 export class WebAssetsStorageStack extends cdk.Stack {
+  public readonly webAssetsBucket: s3.Bucket;
+
   constructor(scope: Construct, id: string, props: WebAssetsStorageStackProps) {
     super(scope, id, props);
 
     const bucketName = `web-assets-bucket-${props.stageName.toLowerCase()}`;
 
-    const webAssetsBucket = new s3.Bucket(this, "WebAssetsBucket", {
+    this.webAssetsBucket = new s3.Bucket(this, "WebAssetsBucket", {
       bucketName: bucketName,
       blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
       encryption: s3.BucketEncryption.S3_MANAGED,
@@ -24,7 +26,7 @@ export class WebAssetsStorageStack extends cdk.Stack {
 
     new s3deploy.BucketDeployment(this, "DeployWebAssets", {
       sources: [s3deploy.Source.asset("web_assets")],
-      destinationBucket: webAssetsBucket,
+      destinationBucket: this.webAssetsBucket,
     });
   }
 }
