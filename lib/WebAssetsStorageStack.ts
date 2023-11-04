@@ -1,5 +1,6 @@
 import * as cdk from "aws-cdk-lib";
 import * as s3 from "aws-cdk-lib/aws-s3";
+import * as s3deploy from "aws-cdk-lib/aws-s3-deployment";
 import { Construct } from "constructs";
 
 export interface WebAssetsStorageStackProps extends cdk.StackProps {
@@ -12,13 +13,18 @@ export class WebAssetsStorageStack extends cdk.Stack {
 
     const bucketName = `web-assets-bucket-${props.stageName.toLowerCase()}`;
 
-    new s3.Bucket(this, "WebAssetsBucket", {
+    const webAssetsBucket = new s3.Bucket(this, "WebAssetsBucket", {
       bucketName: bucketName,
       blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
       encryption: s3.BucketEncryption.S3_MANAGED,
       enforceSSL: true,
       versioned: false,
       removalPolicy: cdk.RemovalPolicy.DESTROY,
+    });
+
+    new s3deploy.BucketDeployment(this, "DeployWebAssets", {
+      sources: [s3deploy.Source.asset("web_assets")],
+      destinationBucket: webAssetsBucket,
     });
   }
 }

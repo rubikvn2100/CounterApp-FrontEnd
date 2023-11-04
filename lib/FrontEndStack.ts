@@ -21,8 +21,15 @@ export class FrontEndStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
-    const repoSuffixes = ["", "-Config"];
-    const [sourceCode, configCode] = repoSuffixes.map(createGitHubSource);
+    const repoSuffixes = ["", "-Config", "-Assets"];
+    const [sourceCode, configCode, assetsCode] =
+      repoSuffixes.map(createGitHubSource);
+
+    const buildAssets = new ShellStep("BuildAssets", {
+      input: assetsCode,
+      commands: ["npm ci", "npm run deploy"],
+      primaryOutputDirectory: "./dist",
+    });
 
     const appPipeline = new CodePipeline(this, "CounterAppFrontEndPipeline", {
       pipelineName: "CounterAppFrontEndPipeline",
@@ -30,6 +37,7 @@ export class FrontEndStack extends cdk.Stack {
         input: sourceCode,
         additionalInputs: {
           config: configCode,
+          web_assets: buildAssets,
         },
         commands: ["npm ci", "npm run deploy"],
         primaryOutputDirectory: "cdk.out",
