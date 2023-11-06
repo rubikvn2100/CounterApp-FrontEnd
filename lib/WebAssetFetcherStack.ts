@@ -18,9 +18,6 @@ export class WebAssetFetcherStack extends cdk.Stack {
       code: lambda.Code.fromAsset("./lambda_code/web_asset_fetcher"),
       handler: "index.handler",
       environment: {
-        stageName: id,
-        account: props.env?.account || "unset-account",
-        region: props.env?.region || "unset-region",
         BUCKET_NAME: props.webAssetsBucket.bucketName,
       },
     });
