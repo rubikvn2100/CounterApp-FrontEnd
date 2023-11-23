@@ -10,3 +10,4 @@ cdk.out
 # Code artifacts
 config
 web_assets
+lambda_code
