@@ -20,6 +20,7 @@ export class AppStage extends cdk.Stage {
       this,
       "WebAssetFetcherStack",
       {
+        stageName: stageName,
         webAssetsBucket: webAssetsStorageStack.webAssetsBucket,
       },
     );
