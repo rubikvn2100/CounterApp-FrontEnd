@@ -12,7 +12,6 @@ export class AppStage extends cdk.Stage {
       this,
       "WebAssetsStorageStack",
       {
-        env: props.env,
         stageName: stageName,
       },
     );
@@ -21,13 +20,11 @@ export class AppStage extends cdk.Stage {
       this,
       "WebAssetFetcherStack",
       {
-        env: props.env,
         webAssetsBucket: webAssetsStorageStack.webAssetsBucket,
       },
     );
 
     new WebAssetEndpointStack(this, "WebAssetEndpointStack", {
-      env: props.env,
       stageName: stageName,
       webAssetFetcher: webAssetFetcherStack.webAssetFetcher,
     });
