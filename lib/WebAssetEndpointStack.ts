@@ -1,6 +1,7 @@
 import * as cdk from "aws-cdk-lib";
 import * as apigateway from "aws-cdk-lib/aws-apigateway";
 import * as lambda from "aws-cdk-lib/aws-lambda";
+import { webAssetEndpointConfig } from "../config/config";
 import { Construct } from "constructs";
 
 export interface WebAssetEndpointStackProps extends cdk.StackProps {
@@ -31,6 +32,8 @@ export class WebAssetEndpointStack extends cdk.Stack {
       {
         deployment: webAssetEndpointDeployment,
         stageName: props.stageName,
+        throttlingRateLimit: webAssetEndpointConfig.throttlingRateLimit,
+        throttlingBurstLimit: webAssetEndpointConfig.throttlingBurstLimit,
       },
     );
 
