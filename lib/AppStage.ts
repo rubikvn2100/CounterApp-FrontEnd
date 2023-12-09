@@ -2,6 +2,7 @@ import * as cdk from "aws-cdk-lib";
 import { WebAssetsStorageStack } from "./WebAssetsStorageStack";
 import { WebAssetFetcherStack } from "./WebAssetFetcherStack";
 import { WebAssetEndpointStack } from "./WebAssetEndpointStack";
+import { AlarmNotificationStack } from "./AlarmNotificationStack";
 import { Construct } from "constructs";
 
 export class AppStage extends cdk.Stage {
@@ -28,6 +29,10 @@ export class AppStage extends cdk.Stage {
     new WebAssetEndpointStack(this, "WebAssetEndpointStack", {
       stageName: stageName,
       webAssetFetcher: webAssetFetcherStack.webAssetFetcher,
+    });
+
+    new AlarmNotificationStack(this, "AlarmNotificationStack", {
+      stageName: stageName,
     });
   }
 }
