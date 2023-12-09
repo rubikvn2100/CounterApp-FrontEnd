@@ -19,6 +19,8 @@ export class WebAssetFetcherStack extends cdk.Stack {
       (stage) => stage.stageName === props.stageName,
     );
 
+    const cacheDuration = stageConfig?.cacheDuration;
+
     this.webAssetFetcher = new lambda.Function(this, "WebAssetFetcher", {
       runtime: lambda.Runtime.PYTHON_3_8,
       code: lambda.Code.fromAsset("./lambda_code/web_asset_fetcher"),
@@ -26,6 +28,7 @@ export class WebAssetFetcherStack extends cdk.Stack {
       environment: {
         BUCKET_NAME: props.webAssetsBucket.bucketName,
         API_BASE_URL: stageConfig!.apiBaseUrl,
+        CACHE_DURATION: JSON.stringify(cacheDuration),
       },
     });
 
