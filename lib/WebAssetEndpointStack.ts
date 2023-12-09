@@ -19,7 +19,7 @@ export class WebAssetEndpointStack extends cdk.Stack {
 
     const webAssetEndpointDeployment = new apigateway.Deployment(
       this,
-      "WebAssetEndpointDeployment",
+      `WebAssetEndpointDeployment${new Date().toISOString()}`,
       {
         api: webAssetEndpoint,
       },
