@@ -27,7 +27,7 @@ export class WebAssetEndpointStack extends cdk.Stack {
 
     webAssetEndpoint.deploymentStage = new apigateway.Stage(
       this,
-      `WebAssetEndpoint${props.stageName}`,
+      `WebAssetEndpointDeploymentStage.${props.stageName}`,
       {
         deployment: webAssetEndpointDeployment,
         stageName: props.stageName,
