@@ -1,6 +1,7 @@
 import * as cdk from "aws-cdk-lib";
 import * as s3 from "aws-cdk-lib/aws-s3";
 import * as s3deploy from "aws-cdk-lib/aws-s3-deployment";
+import { webAssetsStorageConfig } from "../config/config";
 import { Construct } from "constructs";
 
 export interface WebAssetsStorageStackProps extends cdk.StackProps {
@@ -19,8 +20,8 @@ export class WebAssetsStorageStack extends cdk.Stack {
       bucketName: bucketName,
       blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
       encryption: s3.BucketEncryption.S3_MANAGED,
-      enforceSSL: true,
-      versioned: false,
+      enforceSSL: webAssetsStorageConfig.enforceSSL,
+      versioned: webAssetsStorageConfig.versioned,
       removalPolicy: cdk.RemovalPolicy.DESTROY,
     });
 
