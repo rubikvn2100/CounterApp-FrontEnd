@@ -3,6 +3,7 @@ import { WebAssetsStorageStack } from "./WebAssetsStorageStack";
 import { WebAssetFetcherStack } from "./WebAssetFetcherStack";
 import { WebAssetEndpointStack } from "./WebAssetEndpointStack";
 import { AlarmNotificationStack } from "./AlarmNotificationStack";
+import { CloudwatchStack } from "./CloudwatchStack";
 import { Construct } from "constructs";
 
 export class AppStage extends cdk.Stage {
@@ -31,8 +32,16 @@ export class AppStage extends cdk.Stage {
       webAssetFetcher: webAssetFetcherStack.webAssetFetcher,
     });
 
-    new AlarmNotificationStack(this, "AlarmNotificationStack", {
-      stageName: stageName,
+    const alarmNotificationStack = new AlarmNotificationStack(
+      this,
+      "AlarmNotificationStack",
+      {
+        stageName: stageName,
+      },
+    );
+
+    new CloudwatchStack(this, "CloudwatchStack", {
+      alarmTopic: alarmNotificationStack.alarmTopic,
     });
   }
 }
